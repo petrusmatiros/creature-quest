@@ -1,0 +1,10 @@
+global.seed_bit_size = 20;
+global.secret_key = "2ab2efc0-da0b-4198-8247-edcc840ee454";
+global.dataset_max_size = 1000;
+global.max_inventory_size = 32;
+global.max_hundred = 100;
+global.max_thousand = 1000;
+global.legendary_chance = 0.005;
+global.epic_chance = 0.05;
+global.rare_chance = 0.145;
+global.uncommon_chance = 0.3;
