@@ -1,6 +1,9 @@
 # .vscode
 .vscode
 
+# Do not include secret key
+app-env
+
 # SSL cert
 sslcert
 
