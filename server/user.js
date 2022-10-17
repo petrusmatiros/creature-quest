@@ -6,7 +6,7 @@ class User {
         this.userid = undefined;
         this.date_created = undefined;
         this.creatures = [];
-        this.inventory_cap = max_inventory_size;
+        this.inventory_cap = MAX_INVENTORY_SIZE;
     }
     getUsername() {
         return this.username;

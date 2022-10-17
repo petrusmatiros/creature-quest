@@ -3,7 +3,7 @@ const PRNG = require('rand-seed');
 const uuid = require('uuid');
 const CryptoJS = require("crypto-js");
 const fs = require('fs');
-const mi = require('merge-images');
+const mergeImages = require('merge-images');
 const lwip = require('@mediabox/lwip');
 
 var { User } = require("./user");
@@ -95,7 +95,7 @@ function random(min, max) {
 function generateSeed() {
     var theSeed = null;
     while (true) {
-        var rseed = random(0, Math.pow(2, seed_bit_size));
+        var rseed = random(0, Math.pow(2, SEED_BIT_SIZE));
         if (!seeds.includes(rseed)) {
             seeds.push(rseed.toString());
             theSeed = rseed;
@@ -116,32 +116,32 @@ function initCreature(forceSeed = null) {
     if (seed != null) {
         var randgen = new Rand(seed.toString());
         c.seed = seed.toString();
-        c.name = randomData.get("name")[Math.round(randgen.next() * dataset_max_size) % max_thousand];
+        c.name = randomData.get("name")[Math.round(randgen.next() * DATASET_MAX_SIZE) % MAX_THOUSAND];
         // Rarity
         var try_rarity = randgen.next();
         var rarity = undefined;
         var multiplier = undefined;
         var max = undefined;
         var baseline = undefined;
-        if (try_rarity < legendary_chance) {
+        if (try_rarity < LEGENDARY_CHANCE) {
             rarity = 4;
             multiplier = 3;
             max = 10000;
             baseline = 500;
         }
-        else if (try_rarity < epic_chance) {
+        else if (try_rarity < EPIC_CHANCE) {
             rarity = 3;
             multiplier = 1.25;
             max = 1000;
             baseline = 250;
         }
-        else if (try_rarity < rare_chance) {
+        else if (try_rarity < RARE_CHANCE) {
             rarity = 2;
             multiplier = 1.1;
             max = 500;
             baseline = 100;
         }
-        else if (try_rarity < uncommon_chance) {
+        else if (try_rarity < UNCOMMON_CHANCE) {
             rarity = 1;
             multiplier = 0.25;
             max = 300;
@@ -155,31 +155,31 @@ function initCreature(forceSeed = null) {
         }
         c.rarity = randomData.get("rarity")[rarity];
         // Age
-        c.age = parseInt(Math.round(randgen.next() * dataset_max_size * multiplier) % max_thousand % max_hundred);
-        c.max_age = c.age + parseInt(Math.round(randgen.next() * dataset_max_size * multiplier));
+        c.age = parseInt(Math.round(randgen.next() * DATASET_MAX_SIZE * multiplier) % MAX_THOUSAND % MAX_HUNDRED);
+        c.max_age = c.age + parseInt(Math.round(randgen.next() * DATASET_MAX_SIZE * multiplier));
         // Origin
-        c.origin.solar_system = randomData.get("solar_system")[Math.round(randgen.next() * dataset_max_size) % max_thousand];
-        c.origin.planet = randomData.get("planet")[Math.round(randgen.next() * dataset_max_size) % max_thousand];
+        c.origin.solar_system = randomData.get("solar_system")[Math.round(randgen.next() * DATASET_MAX_SIZE) % MAX_THOUSAND];
+        c.origin.planet = randomData.get("planet")[Math.round(randgen.next() * DATASET_MAX_SIZE) % MAX_THOUSAND];
         // Taxonomy
-        c.taxonomy.species = randomData.get("species")[Math.round(randgen.next() * dataset_max_size) % max_thousand];
+        c.taxonomy.species = randomData.get("species")[Math.round(randgen.next() * DATASET_MAX_SIZE) % MAX_THOUSAND];
         // Traits
-        c.traits.health = Math.round(Math.round(randgen.next() * dataset_max_size) * multiplier + baseline % max);
-        c.traits.strength = Math.round(Math.round(randgen.next() * dataset_max_size) * multiplier + baseline % max);
-        c.traits.defense = Math.round(Math.round(randgen.next() * dataset_max_size) * multiplier + baseline % max);
-        c.traits.agility = Math.round(Math.round(randgen.next() * dataset_max_size) * multiplier + baseline % max);
-        c.traits.intelligence = Math.round(Math.round(randgen.next() * dataset_max_size) * multiplier + baseline % max);
+        c.traits.health = Math.round(Math.round(randgen.next() * DATASET_MAX_SIZE) * multiplier + baseline % max);
+        c.traits.strength = Math.round(Math.round(randgen.next() * DATASET_MAX_SIZE) * multiplier + baseline % max);
+        c.traits.defense = Math.round(Math.round(randgen.next() * DATASET_MAX_SIZE) * multiplier + baseline % max);
+        c.traits.agility = Math.round(Math.round(randgen.next() * DATASET_MAX_SIZE) * multiplier + baseline % max);
+        c.traits.intelligence = Math.round(Math.round(randgen.next() * DATASET_MAX_SIZE) * multiplier + baseline % max);
         // Physiology
-        c.physiology.length = Math.round(Math.round(randgen.next() * dataset_max_size) * multiplier % max_thousand);
-        c.physiology.height = Math.round(Math.round(randgen.next() * dataset_max_size) * multiplier % max_thousand);
-        c.physiology.weight = Math.round(Math.round(randgen.next() * dataset_max_size) * multiplier % max_thousand);
+        c.physiology.length = Math.round(Math.round(randgen.next() * DATASET_MAX_SIZE) * multiplier % MAX_THOUSAND);
+        c.physiology.height = Math.round(Math.round(randgen.next() * DATASET_MAX_SIZE) * multiplier % MAX_THOUSAND);
+        c.physiology.weight = Math.round(Math.round(randgen.next() * DATASET_MAX_SIZE) * multiplier % MAX_THOUSAND);
         // Ecology
-        c.ecology.geolocation = randomData.get("geolocation")[Math.round(randgen.next() * dataset_max_size) % max_thousand];
-        c.ecology.habitat = randomData.get("habitat")[Math.round(randgen.next() * dataset_max_size) % max_thousand % (randomData.get("habitat").length)];
-        c.ecology.diet = randomData.get("diet")[Math.round(randgen.next() * dataset_max_size) % max_thousand % (randomData.get("diet").length)];
+        c.ecology.geolocation = randomData.get("geolocation")[Math.round(randgen.next() * DATASET_MAX_SIZE) % MAX_THOUSAND];
+        c.ecology.habitat = randomData.get("habitat")[Math.round(randgen.next() * DATASET_MAX_SIZE) % MAX_THOUSAND % (randomData.get("habitat").length)];
+        c.ecology.diet = randomData.get("diet")[Math.round(randgen.next() * DATASET_MAX_SIZE) % MAX_THOUSAND % (randomData.get("diet").length)];
         // Behaviour
-        c.behaviour.hostility = randomData.get("hostility")[Math.round(randgen.next() * dataset_max_size) % max_thousand % (randomData.get("hostility").length)];
-        c.behaviour.social_structure = randomData.get("social_structure")[Math.round(randgen.next() * dataset_max_size) % max_thousand % (randomData.get("social_structure").length)];
-        c.behaviour.activity = randomData.get("activity")[Math.round(randgen.next() * dataset_max_size) % max_thousand % (randomData.get("activity").length)];
+        c.behaviour.hostility = randomData.get("hostility")[Math.round(randgen.next() * DATASET_MAX_SIZE) % MAX_THOUSAND % (randomData.get("hostility").length)];
+        c.behaviour.social_structure = randomData.get("social_structure")[Math.round(randgen.next() * DATASET_MAX_SIZE) % MAX_THOUSAND % (randomData.get("social_structure").length)];
+        c.behaviour.activity = randomData.get("activity")[Math.round(randgen.next() * DATASET_MAX_SIZE) % MAX_THOUSAND % (randomData.get("activity").length)];
     }
     if (!allCreatures.has(seed)) {
         allCreatures.set(seed, c);
@@ -265,13 +265,35 @@ generateRandomData();
 //countCreatures();
 
 var user1 = new User();
-initUser(user1);
-rollForCreature(user1);
-rollForCreature(user1);
-rollForCreature(user1);
-rollForCreature(user1);
-rollForCreature(user1);
-viewInventory(user1);
+// initUser(user1);
+// rollForCreature(user1);
+// rollForCreature(user1);
+// rollForCreature(user1);
+// rollForCreature(user1);
+// rollForCreature(user1);
+// viewInventory(user1);
+
+createCreatureArt();
+
+
+function createCreatureArt() {
+    lwip.open(__dirname + '/images/body.jpg', function(err, image) {
+        try {
+            image.hue(HUE_STEP, function(err, image) {
+                try {
+                    image.writeFile(__dirname + '/images/1.jpg', function(err) {
+            
+                    })
+                } catch (err) {
+                    console.error(err)
+                }
+                
+            })
+        } catch (err) {
+            console.error(err)
+        }
+    })
+}
 
 
 
