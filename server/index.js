@@ -22,7 +22,7 @@ var randomData = new Map();
 // username, name, species, geolocation,
 // numbers -> traits, physiology, age, max_age, length, height, width, family, solar_system, planet,
 // 9 habitats
-// 5 rarity (Common, Uncommon, Rare, Epic, Lengendary
+// 5 rarity (Common, Uncommon, Rare, Epic, Legendary
 // 3 hostility, social_structure, activity, hostility, diet
 function generateRandomData() {
     var datasets = ["username", "name", "rarity", "solar_system", "planet", "species", "numbers", "geolocation", "habitat", "diet", "hostility", "social_structure", "activity"]

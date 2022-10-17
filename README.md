@@ -35,10 +35,12 @@
 ## Dependencies
 ```json
 "dependencies": {
+    "@mediabox/lwip": "^3.0.18",
     "crypto-js": "^4.1.1",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "fs": "^0.0.1-security",
+    "merge-images": "^2.0.0",
     "rand-seed": "^1.0.2",
     "socket.io": "^4.5.3",
     "socket.io-client": "^4.5.3",
