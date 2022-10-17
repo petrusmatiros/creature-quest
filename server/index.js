@@ -3,6 +3,8 @@ const PRNG = require('rand-seed');
 const uuid = require('uuid');
 const CryptoJS = require("crypto-js");
 const fs = require('fs');
+const mi = require('merge-images');
+const lwip = require('@mediabox/lwip');
 
 var { User } = require("./user");
 var { Creature } = require("./creature");
@@ -270,8 +272,6 @@ rollForCreature(user1);
 rollForCreature(user1);
 rollForCreature(user1);
 viewInventory(user1);
-
-
 
 
 

@@ -54,7 +54,15 @@
 npm i
 npm build
 ```
+
+lwip package is native and requires compilation with `node-gyp`
+```
+cd @mediabox/lwip
+node-gyp configure
+node-gyp build
+```
 ---
+
 
 ## Assets
 
