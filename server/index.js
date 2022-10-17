@@ -14,6 +14,8 @@ var users = new Map();
 var allCreatures = new Map();
 var seeds = [];
 
+var secret_key = process.env.SECRET_KEY;
+
 // Random data
 var randomData = new Map();
 

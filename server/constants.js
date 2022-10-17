@@ -1,5 +1,4 @@
 global.seed_bit_size = 20;
-global.secret_key = "2ab2efc0-da0b-4198-8247-edcc840ee454";
 global.dataset_max_size = 1000;
 global.max_inventory_size = 32;
 global.max_hundred = 100;
