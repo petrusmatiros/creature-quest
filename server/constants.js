@@ -8,3 +8,4 @@ global.EPIC_CHANCE = 0.05;
 global.RARE_CHANCE = 0.145;
 global.UNCOMMON_CHANCE = 0.3;
 global.HUE_STEP = 30;
+global.SATURATE_STEP = 0.1;

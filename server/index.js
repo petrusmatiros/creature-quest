@@ -3,7 +3,6 @@ const PRNG = require('rand-seed');
 const uuid = require('uuid');
 const CryptoJS = require("crypto-js");
 const fs = require('fs');
-const mergeImages = require('merge-images');
 const lwip = require('@mediabox/lwip');
 
 var { User } = require("./user");
@@ -281,13 +280,43 @@ function createCreatureArt() {
         try {
             image.hue(HUE_STEP, function(err, image) {
                 try {
-                    image.writeFile(__dirname + '/images/1.jpg', function(err) {
-            
+                    image.saturate(SATURATE_STEP, function(err, image) {
+                        try {
+                            image.writeFile(__dirname + '/images/body_modified.jpg', function(err) {
+                    
+                            })
+        
+                        } catch (err) {
+                            console.error(err)
+                        }
                     })
                 } catch (err) {
                     console.error(err)
                 }
-                
+
+            })
+        } catch (err) {
+            console.error(err)
+        }
+    })
+    lwip.open(__dirname + '/images/head.jpg', function(err, image) {
+        try {
+            image.hue(HUE_STEP*5, function(err, image) {
+                try {
+                    image.saturate(SATURATE_STEP*-5, function(err, image) {
+                        try {
+                            image.writeFile(__dirname + '/images/head_modified.jpg', function(err) {
+                    
+                            })
+        
+                        } catch (err) {
+                            console.error(err)
+                        }
+                    })
+                } catch (err) {
+                    console.error(err)
+                }
+
             })
         } catch (err) {
             console.error(err)
