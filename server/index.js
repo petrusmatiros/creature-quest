@@ -186,6 +186,7 @@ function initCreature(forceSeed = null) {
     if (!allCreatures.has(seed)) {
         allCreatures.set(seed, c);
     }
+	createCreatureArt(c);
     return c;
 }
 
@@ -247,18 +248,29 @@ function viewInventory(user) {
 
 function rollForCreature(user) {
     var c = initCreature();
-    createCreatureArt(c.seed);
+    createCreatureArt(c);
     if (user.addCreature(c) != null) {
 
         console.log(`${c.name} (${c.rarity}) was added to your inventory`);
     } else {
         console.log(`Your inventory is full! ${c.name} (${c.rarity}) couldn't be added to your inventory`);
     }
+	return c;
 }
 
 function deleteCreature(user, c) {
     if (user.removeCreature(c) != null) {
         console.log(`${c.name} (${c.rarity}) was removed to your inventory`);
+		fs.stat(c.image, function(err) {
+			if (err) {
+				console.log(err)
+			}
+		})
+		fs.unlink(c.image, function(err) {
+			if (err) {
+				console.log(err)
+			}
+		})
     } else {
         console.log("Deletion of creature did not work");
     }
@@ -270,14 +282,16 @@ function rollMultiCreatures(user, amount) {
     }
 }
 
-function createCreatureArt(seed) {
+function createCreatureArt(c) {
     var body = undefined;
     var eyes = undefined;
     var mouth = undefined;
     var variations = 5;
     var dir = "/images/"
-    var toDir = "/creatures/"
+    var toDir = "public/assets/creatures/"
     var ff = ".png";
+	var seed = c.seed;
+	c.image = toDir + seed.toString() + ff;
     var randgen = new Rand(seed.toString());
     
     var hue_rand_body = Math.round(randgen.next() * DATASET_MAX_SIZE) % 12;
@@ -319,9 +333,9 @@ function createCreatureArt(seed) {
                                                                                                 try {
                                                                                                     image.paste(0, 0, mouth, function(err, mouth) {
                                                                                                         try {
-                                                                                                            image.writeFile(__dirname + toDir + seed.toString() + ff, function(err) {
+                                                                                                            image.writeFile(toDir + seed.toString() + ff, function(err) {
                                                                                                                 try {
-                                                                                                
+																													
                                                                                                                 } catch (err) {
                                                                                                                     console.error(err)
                                                                                                                 }
@@ -389,8 +403,12 @@ generateRandomData();
 
 var user1 = new User();
 initUser(user1);
-rollMultiCreatures(user1, 25)
-viewInventory(user1);
+var c = initCreature();
+
+console.log(c)
+user1.addCreature(c);
+
+// rollMultiCreatures(user1, 1)
 
 
 

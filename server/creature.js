@@ -3,6 +3,7 @@ class Creature {
         this.name = "";
         this.age = 0;
         this.seed = undefined;
+        this.image = undefined;
         this.max_age = 0;
         this.rarity = undefined;
         this.origin = {
