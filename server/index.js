@@ -93,15 +93,18 @@ function random(min, max) {
 
 function generateSeed() {
     var theSeed = null;
-    while (true) {
-        var rseed = random(0, Math.pow(2, SEED_BIT_SIZE));
-        if (!seeds.includes(rseed)) {
-            seeds.push(rseed.toString());
-            theSeed = rseed;
-            break;
-        }
-    }
-    return theSeed;
+    // while (true) {
+    //     var rseed = random(0, Math.pow(2, SEED_BIT_SIZE));
+    //     if (!seeds.includes(rseed)) {
+    //         seeds.push(rseed.toString());
+    //         theSeed = rseed;
+    //         break;
+    //     }
+    // }
+    var rseed = random(0, Math.pow(2, SEED_BIT_SIZE));
+    seeds.push(rseed.toString());
+
+    return rseed;
 }
 
 function initCreature(forceSeed = null) {
@@ -244,7 +247,9 @@ function viewInventory(user) {
 
 function rollForCreature(user) {
     var c = initCreature();
+    createCreatureArt(c.seed);
     if (user.addCreature(c) != null) {
+
         console.log(`${c.name} (${c.rarity}) was added to your inventory`);
     } else {
         console.log(`Your inventory is full! ${c.name} (${c.rarity}) couldn't be added to your inventory`);
@@ -259,56 +264,110 @@ function deleteCreature(user, c) {
     }
 }
 
-generateRandomData();
-//generateCreatures(10000);
-//countCreatures();
+function rollMultiCreatures(user, amount) {
+    for (var i = 0; i < amount; i++) {
+        rollForCreature(user);
+    }
+}
 
-var user1 = new User();
-// initUser(user1);
-// rollForCreature(user1);
-// rollForCreature(user1);
-// rollForCreature(user1);
-// rollForCreature(user1);
-// rollForCreature(user1);
-// viewInventory(user1);
-
-createCreatureArt();
-
-
-function createCreatureArt() {
-    lwip.open(__dirname + '/images/body.jpg', function(err, image) {
+function createCreatureArt(seed) {
+    var body = undefined;
+    var eyes = undefined;
+    var mouth = undefined;
+    var variations = 5;
+    var dir = "/images/"
+    var toDir = "/creatures/"
+    var ff = ".png";
+    var randgen = new Rand(seed.toString());
+    
+    var hue_rand_body = Math.round(randgen.next() * DATASET_MAX_SIZE) % 12;
+    var saturate_rand_body = randgen.next().toFixed(3) % 1;
+    var hue_rand_eyes = Math.round(randgen.next() * DATASET_MAX_SIZE) % 12;
+    var saturate_rand_eyes = randgen.next().toFixed(3) % 1;
+    var hue_rand_mouth = Math.round(randgen.next() * DATASET_MAX_SIZE) % 12;
+    var saturate_rand_mouth = randgen.next().toFixed(3) % 1;
+    
+    var type_body = Math.round(randgen.next()*DATASET_MAX_SIZE) % variations;
+    var type_eyes = Math.round(randgen.next()*DATASET_MAX_SIZE) % variations;
+    var type_mouth = Math.round(randgen.next()*DATASET_MAX_SIZE) % variations;
+    lwip.open(__dirname + dir + "body" + type_body + ff, function(err, image) {
         try {
-            image.hue(HUE_STEP, function(err, image) {
+            image.hue(HUE_STEP*hue_rand_body, function(err, image) {
                 try {
-                    image.saturate(SATURATE_STEP, function(err, image) {
+                    image.saturate(SATURATE_STEP*-saturate_rand_body, function(err, image) {
                         try {
-                            image.writeFile(__dirname + '/images/body_modified.jpg', function(err) {
-                    
+                            body = image;
+                            lwip.open(__dirname + dir + "eyes" + type_eyes + ff, function(err, image) {
+                                try {
+                                    image.hue(HUE_STEP*hue_rand_eyes, function(err, image) {
+                                        try {
+                                            image.saturate(SATURATE_STEP*-saturate_rand_eyes, function(err, image) {
+                                                try {
+                                                    eyes = image;
+                                                    lwip.open(__dirname + dir + "mouth" + type_mouth + ff, function(err, image) {
+                                                        try {
+                                                            image.hue(HUE_STEP*hue_rand_mouth, function(err, image) {
+                                                                try {
+                                                                    image.saturate(SATURATE_STEP*-saturate_rand_mouth, function(err, image) {
+                                                                        try {
+                                                                            mouth = image;
+                                                                            lwip.create(128, 128, function(err, image) {
+                                                                                try {
+                                                                                    image.paste(0, 0, body, function(err, body) {
+                                                                                        try {
+                                                                                            image.paste(0, 0, eyes, function(err, eyes) {
+                                                                                                try {
+                                                                                                    image.paste(0, 0, mouth, function(err, mouth) {
+                                                                                                        try {
+                                                                                                            image.writeFile(__dirname + toDir + seed.toString() + ff, function(err) {
+                                                                                                                try {
+                                                                                                
+                                                                                                                } catch (err) {
+                                                                                                                    console.error(err)
+                                                                                                                }
+                                                                                                            })
+                                                                                                        } catch (err) {
+                                                                                                            console.error(err)
+                                                                                                        }
+                                                                                                    })
+                                                                                                } catch (err) {
+                                                                                                    console.error(err)
+                                                                                                }
+                                                                                            })
+                                                                                        } catch (err) {
+                                                                                            console.error(err)
+                                                                                        }
+                                                                                    })
+                                                                                } catch (err) {
+                                                                                    console.error(err)
+                                                                                }
+                                                                            })
+                                                                        } catch (err) {
+                                                                            console.error(err)
+                                                                        }
+                                                                    })
+                                                                } catch (err) {
+                                                                    console.error(err)
+                                                                }
+                                                
+                                                            })
+                                                        } catch (err) {
+                                                            console.error(err)
+                                                        }
+                                                    })
+                                                } catch (err) {
+                                                    console.error(err)
+                                                }
+                                            })
+                                        } catch (err) {
+                                            console.error(err)
+                                        }
+                        
+                                    })
+                                } catch (err) {
+                                    console.error(err)
+                                }
                             })
-        
-                        } catch (err) {
-                            console.error(err)
-                        }
-                    })
-                } catch (err) {
-                    console.error(err)
-                }
-
-            })
-        } catch (err) {
-            console.error(err)
-        }
-    })
-    lwip.open(__dirname + '/images/head.jpg', function(err, image) {
-        try {
-            image.hue(HUE_STEP*5, function(err, image) {
-                try {
-                    image.saturate(SATURATE_STEP*-5, function(err, image) {
-                        try {
-                            image.writeFile(__dirname + '/images/head_modified.jpg', function(err) {
-                    
-                            })
-        
                         } catch (err) {
                             console.error(err)
                         }
@@ -324,6 +383,14 @@ function createCreatureArt() {
     })
 }
 
+generateRandomData();
+//generateCreatures(10000);
+//countCreatures();
+
+var user1 = new User();
+initUser(user1);
+rollMultiCreatures(user1, 25)
+viewInventory(user1);
 
 
 
