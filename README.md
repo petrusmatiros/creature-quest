@@ -28,10 +28,6 @@
  A collection game, where you can discover unique creatures from different worlds (spanning different planets and even solar systems). All of the creatures are procedurally generated, with their origin, species, stats and even art.
  
 
-
-
----
-
 ## Dependencies
 ```json
 "dependencies": {
@@ -60,8 +56,6 @@ cd @mediabox/lwip
 node-gyp configure
 node-gyp build
 ```
----
-
 
 ## Assets
 
@@ -75,7 +69,6 @@ node-gyp build
 <br>
 <a href="#" target="_blank">"name"</a> by Author of <a href="#" target="_blank">Website</a>
 <br>
-
 
 
 ## Notes
