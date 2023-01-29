@@ -43,11 +43,11 @@
   }
 ```
 
-## Install and build
+## Install and run
 
 ```
 npm i
-npm build
+node src/index.js
 ```
 
 lwip package is native and requires compilation with `node-gyp`
