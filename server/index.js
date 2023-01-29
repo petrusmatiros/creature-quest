@@ -291,6 +291,7 @@ function createCreatureArt(c) {
     var toDir = "public/assets/creatures/"
     var ff = ".png";
 	var seed = c.seed;
+    var name = c.name;
 	c.image = toDir + seed.toString() + ff;
     var randgen = new Rand(seed.toString());
     
@@ -333,7 +334,7 @@ function createCreatureArt(c) {
                                                                                                 try {
                                                                                                     image.paste(0, 0, mouth, function(err, mouth) {
                                                                                                         try {
-                                                                                                            image.writeFile(toDir + seed.toString() + ff, function(err) {
+                                                                                                            image.writeFile(toDir + name + "_" + seed.toString() + ff, function(err) {
                                                                                                                 try {
 																													
                                                                                                                 } catch (err) {
