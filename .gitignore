@@ -1,6 +1,9 @@
 # .vscode
 .vscode
 
+# Build
+build
+
 # Do not include secret key
 app-env
 
