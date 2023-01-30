@@ -47,7 +47,7 @@
 
 ```
 npm i
-node src/index.js
+node server/index.js
 ```
 
 lwip package is native and requires compilation with `node-gyp`
