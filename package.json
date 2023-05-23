@@ -27,7 +27,7 @@
     "express-session": "^1.17.3",
     "fs": "^0.0.1-security",
     "rand-seed": "^1.0.2",
-    "socket.io": "^4.5.3",
+    "socket.io": "^4.6.1",
     "socket.io-client": "^4.5.3",
     "uuid": "^9.0.0"
   }
