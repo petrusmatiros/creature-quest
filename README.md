@@ -11,10 +11,6 @@
   ### Project
   - [Dependencies](#dependencies)
   - [Install and build](#install-and-build)
-  ### Miscellaneous info
-  - [Assets](#assets)
-  - [Notes](#notes)
-
 ---
 
 ## Link to website
@@ -53,21 +49,4 @@ node-gyp configure
 node-gyp build
 ```
 
-## Assets
-
-**Code & Design** <br> Petrus Matiros
-
-**Emojis** <br> <a href="https://openmoji.org/library/" target="_blank">Openmoji</a>
-
-**Icons** <br> <a href="https://www.untitledui.com/icons" target="_blank">Untitled UI</a>
-
-**BGM & SFX**
-<br>
-<a href="#" target="_blank">"name"</a> by Author of <a href="#" target="_blank">Website</a>
-<br>
-
-
-## Notes
-
-This game is in it's alpha phase - still in development :D
 
