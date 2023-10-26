@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@mediabox/lwip": "^3.0.18",
-    "crypto-js": "^4.1.1",
+    "crypto-js": "^4.2.0",
     "fs": "^0.0.1-security",
     "rand-seed": "^1.0.2",
     "uuid": "^9.0.0"
