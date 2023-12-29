@@ -3,10 +3,10 @@
 ### A web based collection game inspired by procedural &amp; random generation
 
 ---
+
   - [Link to website](#link-to-website)
   - [Game description \& objective](#game-description--objective)
   - [Install and run](#install-and-run)
-  - [Assets](#assets)
   - [Notes](#notes)
 ---
 
@@ -25,22 +25,8 @@
 
 ```
 npm i
-node server/index.js
+node src/index.js
 ```
-
-## Assets
-
-**Code & Design** <br> Petrus Matiros
-
-**Emojis** <br> <a href="https://openmoji.org/library/" target="_blank">Openmoji</a>
-
-**Icons** <br> <a href="https://www.untitledui.com/icons" target="_blank">Untitled UI</a>
-
-**BGM & SFX**
-<br>
-<a href="#" target="_blank">"name"</a> by Author of <a href="#" target="_blank">Website</a>
-<br>
-
 
 ## Notes
 
