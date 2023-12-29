@@ -148,7 +148,7 @@ function initCreature(forceSeed = null) {
     if (!allCreatures.has(seed)) {
         allCreatures.set(seed, c);
     }
-	createCreatureArt(c);
+	// createCreatureArt(c);
     return c;
 }
 
@@ -210,7 +210,7 @@ function viewInventory(user) {
 
 function rollForCreature(user) {
     var c = initCreature();
-    createCreatureArt(c);
+    // createCreatureArt(c);
     if (user.addCreature(c) != null) {
 
         console.log(`${c.name} (${c.rarity}) was added to your inventory`);
