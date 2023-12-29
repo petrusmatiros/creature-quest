@@ -21,10 +21,10 @@
     "nodemon": "^3.0.1"
   },
   "dependencies": {
-    "@mediabox/lwip": "^3.0.18",
     "crypto-js": "^4.1.1",
     "fs": "^0.0.1-security",
     "rand-seed": "^1.0.2",
+    "sharp": "^0.33.1",
     "uuid": "^9.0.0"
   }
 }

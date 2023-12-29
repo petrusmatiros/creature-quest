@@ -1,12 +1,12 @@
-const Rand = require('rand-seed').default;
-const PRNG = require('rand-seed');
-const uuid = require('uuid');
-const CryptoJS = require("crypto-js");
-const fs = require('fs');
-const lwip = require('@mediabox/lwip');
+"use strict";
 
-var { User } = require("./user");
-var { Creature } = require("./creature");
+const Rand = require('rand-seed').default;
+const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
+const sharp = require('sharp');
+
+const { User } = require("./user");
+const { Creature } = require("./creature");
 
 require("./constants");
 
@@ -14,8 +14,6 @@ require("./constants");
 var users = new Map();
 var allCreatures = new Map();
 var seeds = [];
-
-var secret_key = process.env.SECRET_KEY;
 
 // Random data
 var randomData = new Map();
@@ -42,7 +40,7 @@ function generateRandomData() {
 function generateID() {
     var theID = null;
     while (true) {
-        var rstring = uuid.v4();
+        var rstring = uuidv4();
         if (!users.has(rstring)) {
             theID = rstring;
             break;
@@ -59,32 +57,6 @@ function initUser(user) {
     }
 }
 
-/* 
-encrypt - dehash string or object
-*/
-function encrypt(data, type, key) {
-    var encryptedData = undefined;
-    if (type == "object") {
-        encryptedData = CryptoJS.AES.encrypt(JSON.stringify(data), key).toString();
-    } else if (type == "string") {
-        encryptedData = CryptoJS.AES.encrypt(data.toString(), key).toString();
-    }
-    return encryptedData;
-}
-/* 
-decrypt - hash string or object
-*/
-function decrypt(hash, type, key) {
-    var decryptedData = undefined;
-    if (type == "object") {
-        var bytes = CryptoJS.AES.decrypt(hash, key);
-        decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-    } else if (type == "string") {
-        var bytes = CryptoJS.AES.decrypt(hash, key);
-        decryptedData = bytes.toString(CryptoJS.enc.Utf8);
-    }
-    return decryptedData;
-}
 
 // inclusive
 function random(min, max) {
@@ -92,18 +64,8 @@ function random(min, max) {
 }
 
 function generateSeed() {
-    var theSeed = null;
-    // while (true) {
-    //     var rseed = random(0, Math.pow(2, SEED_BIT_SIZE));
-    //     if (!seeds.includes(rseed)) {
-    //         seeds.push(rseed.toString());
-    //         theSeed = rseed;
-    //         break;
-    //     }
-    // }
     var rseed = random(0, Math.pow(2, SEED_BIT_SIZE));
     seeds.push(rseed.toString());
-
     return rseed;
 }
 
@@ -287,115 +249,53 @@ function createCreatureArt(c) {
     var eyes = undefined;
     var mouth = undefined;
     var variations = 5;
-    var dir = "/images/"
-    var toDir = "public/assets/creatures/"
+    var dir = "/images/";
+    var toDir = "public/assets/creatures/";
     var ff = ".png";
-	var seed = c.seed;
+    var seed = c.seed;
     var name = c.name;
-	c.image = toDir + seed.toString() + ff;
+    c.image = toDir + seed.toString() + ff;
     var randgen = new Rand(seed.toString());
-    
+
     var hue_rand_body = Math.round(randgen.next() * DATASET_MAX_SIZE) % 12;
     var saturate_rand_body = randgen.next().toFixed(3) % 1;
     var hue_rand_eyes = Math.round(randgen.next() * DATASET_MAX_SIZE) % 12;
     var saturate_rand_eyes = randgen.next().toFixed(3) % 1;
     var hue_rand_mouth = Math.round(randgen.next() * DATASET_MAX_SIZE) % 12;
     var saturate_rand_mouth = randgen.next().toFixed(3) % 1;
-    
-    var type_body = Math.round(randgen.next()*DATASET_MAX_SIZE) % variations;
-    var type_eyes = Math.round(randgen.next()*DATASET_MAX_SIZE) % variations;
-    var type_mouth = Math.round(randgen.next()*DATASET_MAX_SIZE) % variations;
-    lwip.open(__dirname + dir + "body" + type_body + ff, function(err, image) {
-        try {
-            image.hue(HUE_STEP*hue_rand_body, function(err, image) {
-                try {
-                    image.saturate(SATURATE_STEP*-saturate_rand_body, function(err, image) {
-                        try {
-                            body = image;
-                            lwip.open(__dirname + dir + "eyes" + type_eyes + ff, function(err, image) {
-                                try {
-                                    image.hue(HUE_STEP*hue_rand_eyes, function(err, image) {
-                                        try {
-                                            image.saturate(SATURATE_STEP*-saturate_rand_eyes, function(err, image) {
-                                                try {
-                                                    eyes = image;
-                                                    lwip.open(__dirname + dir + "mouth" + type_mouth + ff, function(err, image) {
-                                                        try {
-                                                            image.hue(HUE_STEP*hue_rand_mouth, function(err, image) {
-                                                                try {
-                                                                    image.saturate(SATURATE_STEP*-saturate_rand_mouth, function(err, image) {
-                                                                        try {
-                                                                            mouth = image;
-                                                                            lwip.create(128, 128, function(err, image) {
-                                                                                try {
-                                                                                    image.paste(0, 0, body, function(err, body) {
-                                                                                        try {
-                                                                                            image.paste(0, 0, eyes, function(err, eyes) {
-                                                                                                try {
-                                                                                                    image.paste(0, 0, mouth, function(err, mouth) {
-                                                                                                        try {
-                                                                                                            image.writeFile(toDir + name + "_" + seed.toString() + ff, function(err) {
-                                                                                                                try {
-																													
-                                                                                                                } catch (err) {
-                                                                                                                    console.error(err)
-                                                                                                                }
-                                                                                                            })
-                                                                                                        } catch (err) {
-                                                                                                            console.error(err)
-                                                                                                        }
-                                                                                                    })
-                                                                                                } catch (err) {
-                                                                                                    console.error(err)
-                                                                                                }
-                                                                                            })
-                                                                                        } catch (err) {
-                                                                                            console.error(err)
-                                                                                        }
-                                                                                    })
-                                                                                } catch (err) {
-                                                                                    console.error(err)
-                                                                                }
-                                                                            })
-                                                                        } catch (err) {
-                                                                            console.error(err)
-                                                                        }
-                                                                    })
-                                                                } catch (err) {
-                                                                    console.error(err)
-                                                                }
-                                                
-                                                            })
-                                                        } catch (err) {
-                                                            console.error(err)
-                                                        }
-                                                    })
-                                                } catch (err) {
-                                                    console.error(err)
-                                                }
-                                            })
-                                        } catch (err) {
-                                            console.error(err)
-                                        }
-                        
-                                    })
-                                } catch (err) {
-                                    console.error(err)
-                                }
-                            })
-                        } catch (err) {
-                            console.error(err)
-                        }
-                    })
-                } catch (err) {
-                    console.error(err)
-                }
 
-            })
-        } catch (err) {
-            console.error(err)
-        }
-    })
+    var type_body = Math.round(randgen.next() * DATASET_MAX_SIZE) % variations;
+    var type_eyes = Math.round(randgen.next() * DATASET_MAX_SIZE) % variations;
+    var type_mouth = Math.round(randgen.next() * DATASET_MAX_SIZE) % variations;
+
+    function openImage(path) {
+        return sharp(__dirname + path);
+    }
+
+    openImage(dir + "body" + type_body + ff)
+        .modulate({ hue: HUE_STEP * hue_rand_body, saturation: SATURATE_STEP * -saturate_rand_body })
+        .toBuffer()
+        .then((bodyBuffer) => {
+            body = sharp(bodyBuffer);
+            return openImage(dir + "eyes" + type_eyes + ff)
+                .modulate({ hue: HUE_STEP * hue_rand_eyes, saturation: SATURATE_STEP * -saturate_rand_eyes })
+                .toBuffer();
+        })
+        .then((eyesBuffer) => {
+            eyes = sharp(eyesBuffer);
+            return openImage(dir + "mouth" + type_mouth + ff)
+                .modulate({ hue: HUE_STEP * hue_rand_mouth, saturation: SATURATE_STEP * -saturate_rand_mouth })
+                .toBuffer();
+        })
+        .then((mouthBuffer) => {
+            mouth = sharp(mouthBuffer);
+            return sharp({ create: { width: 128, height: 128, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+                .composite([{ input: body, left: 0, top: 0 }, { input: eyes, left: 0, top: 0 }, { input: mouth, left: 0, top: 0 }])
+                .toFile(toDir + name + "_" + seed.toString() + ff);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
 }
 
 generateRandomData();

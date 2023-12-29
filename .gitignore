@@ -1,15 +1,6 @@
 # .vscode
 .vscode
 
-# Build
-build
-
-# Do not include secret key
-app-env
-
-# SSL cert
-sslcert
-
 # Logs
 logs
 *.log

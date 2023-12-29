@@ -46,13 +46,6 @@ npm i
 node server/index.js
 ```
 
-lwip package is native and requires compilation with `node-gyp`
-```
-cd @mediabox/lwip
-node-gyp configure
-node-gyp build
-```
-
 ## Assets
 
 **Code & Design** <br> Petrus Matiros
