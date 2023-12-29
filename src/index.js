@@ -11,12 +11,12 @@ const { Creature } = require("./creature");
 require("./constants");
 
 // Keep track of all users
-var users = new Map();
-var allCreatures = new Map();
-var seeds = [];
+const users = new Map();
+const allCreatures = new Map();
+const seeds = [];
 
 // Random data
-var randomData = new Map();
+const randomData = new Map();
 
 // username, name, species, geolocation,
 // numbers -> traits, physiology, age, max_age, length, height, width, family, solar_system, planet,

@@ -2,11 +2,11 @@
   "name": "creature-quest",
   "version": "1.0.0",
   "description": "A web based collection game inspired by procedural &amp; random generation",
-  "main": "server/index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -L server/index.js",
-    "start": "node server/index.js"
+    "dev": "nodemon -L src/index.js",
+    "start": "node src/index.js"
   },
   "repository": {
     "type": "git",
@@ -17,14 +17,11 @@
   ],
   "author": "petrus matiros",
   "license": "UNLICENSED",
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
   "dependencies": {
-    "crypto-js": "^4.1.1",
     "fs": "^0.0.1-security",
+    "nodemon": "^3.0.2",
     "rand-seed": "^1.0.2",
     "sharp": "^0.33.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.1"
   }
 }
