@@ -19,7 +19,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "fs": "^0.0.1-security",
-    "nodemon": "^3.0.2",
+    "nodemon": "^3.1.13",
     "rand-seed": "^1.0.2",
     "sharp": "^0.33.1",
     "uuid": "^9.0.1"
